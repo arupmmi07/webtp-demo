@@ -18,7 +18,18 @@ STEP 2: Deploy on Render
 5. Click: "Apply"
 
 
-STEP 3: Set API Keys (Optional)
+STEP 3: Connect UI to API (REQUIRED)
+-------------------------------------
+After both services deploy:
+
+1. Get API URL from Dashboard → webtp-api → copy URL
+   (e.g., https://webtp-api.onrender.com)
+
+2. Dashboard → webtp-ui → Environment → Add:
+   API_BASE_URL=https://webtp-api.onrender.com
+
+
+STEP 4: Set API Keys (Optional)
 --------------------------------
 For AI features (or use mock mode):
 
@@ -34,7 +45,7 @@ For mock mode (no API keys):
   USE_MOCK_LLM=true
 
 
-STEP 4: Access Your App
+STEP 5: Access Your App
 ------------------------
 After ~5-10 minutes:
   UI:  https://webtp-ui.onrender.com

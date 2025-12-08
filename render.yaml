@@ -31,11 +31,7 @@ services:
         value: 8000
       - key: HOST
         value: 0.0.0.0
-      - key: APP_BASE_URL
-        fromService:
-          type: web
-          name: webtp-api
-          property: url
+      # APP_BASE_URL will be auto-set by Render to the service URL
       
       # LLM Configuration (Mock mode by default - no API keys needed)
       - key: USE_MOCK_LLM
@@ -99,12 +95,11 @@ services:
       - key: PYTHON_VERSION
         value: 3.11.0
       
-      # API Connection (connects to API service)
+      # API Connection - Set this manually in Render Dashboard after deployment
+      # Dashboard → webtp-ui → Environment → Add:
+      # API_BASE_URL=https://webtp-api.onrender.com
       - key: API_BASE_URL
-        fromService:
-          type: web
-          name: webtp-api
-          property: url
+        sync: false  # Set manually after API service is deployed
       
       # LLM Configuration (same as API)
       - key: USE_MOCK_LLM
