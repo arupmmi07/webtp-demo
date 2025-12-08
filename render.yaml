@@ -73,11 +73,13 @@ services:
       - key: ALLOWED_ORIGINS
         value: "*"  # Update with your actual domains in production
     
-    # Persistent disk for data files
-    disk:
-      name: webtp-data
-      mountPath: /app/data
-      sizeGB: 1
+    # Note: Persistent disk requires paid plan (starter/standard)
+    # Data will be ephemeral on free tier (resets on restart)
+    # Upgrade to starter plan and uncomment below for persistent storage:
+    # disk:
+    #   name: webtp-data
+    #   mountPath: /app/data
+    #   sizeGB: 1
 
   # ==================================================
   # Streamlit UI
@@ -186,8 +188,9 @@ databases:
 #    - Health checks: Automatic with healthCheckPath
 #
 # 7. DATA PERSISTENCE:
-#    - Disk mounted at /app/data for JSON files
-#    - PostgreSQL for structured data
-#    - Consider backing up to S3 for production
+#    - Free tier: Data is ephemeral (resets on service restart)
+#    - Starter+: Add persistent disk (see commented disk section above)
+#    - PostgreSQL for structured data (persists across restarts)
+#    - Data files recreated from templates on each deploy
 #
 

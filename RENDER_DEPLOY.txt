@@ -82,8 +82,10 @@ WHAT'S DEPLOYED
 ---------------
 1. FastAPI backend (port 8000)
 2. Streamlit UI (port 8501)
-3. PostgreSQL database
-4. Persistent disk for data
+3. PostgreSQL database (persistent)
+4. Data files (ephemeral on free tier, recreated from templates)
+
+Note: Upgrade to 'starter' plan for persistent disk storage
 
 
 TROUBLESHOOTING
