@@ -16,7 +16,7 @@ services:
     name: webtp-api
     env: python
     region: oregon  # Choose your preferred region
-    plan: starter  # Free tier available, upgrade to starter/standard for production
+    plan: free  # Free tier (spins down after 15 min idle), upgrade to starter for production
     buildCommand: pip install --upgrade pip && pip install -r requirements.txt
     startCommand: ./render_start.sh
     healthCheckPath: /health
@@ -86,7 +86,7 @@ services:
     name: webtp-ui
     env: python
     region: oregon  # Match API region for lower latency
-    plan: starter
+    plan: free  # Free tier (spins down after 15 min idle), upgrade to starter for production
     buildCommand: pip install --upgrade pip && pip install -r requirements.txt
     startCommand: ./render_start_ui.sh
     
@@ -142,7 +142,7 @@ services:
 # ==================================================
 databases:
   - name: webtp-database
-    plan: starter  # Free tier available
+    plan: free  # Free tier (90 days free, then $7/month)
     databaseName: webtp
     user: webtp_user
     region: oregon  # Match services region
@@ -165,10 +165,10 @@ databases:
 #    - LANGFUSE_PUBLIC_KEY and LANGFUSE_SECRET_KEY (if using observability)
 #
 # 3. COST ESTIMATE:
-#    - Free Tier: Both services on free tier (limited hours/month)
-#    - Starter: $7/month per service = $14/month total
-#    - Database: $7/month for PostgreSQL starter
-#    - Total: ~$21/month for production-ready deployment
+#    - Free Tier: All services free (750 hours/month, spins down after 15 min)
+#    - Starter: $7/month per web service = $14/month
+#    - Database: Free for 90 days, then $7/month
+#    - Total Production: ~$21/month (after database free period)
 #
 # 4. SCALING:
 #    - Start with free tier for testing

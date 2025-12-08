@@ -54,9 +54,12 @@ After ~5-10 minutes:
 
 PRICING
 -------
-Free Tier:    $0/month (spins down after 15 min)
-Starter:      $21/month (always on)
+Free Tier:    $0/month (750 hrs/month, spins down after 15 min)
+              Database free for 90 days
+Starter:      $21/month (2 web services + database, always on)
 Standard:     $57/month (high traffic)
+
+Note: Deploy with 'free' plan first, upgrade later in Dashboard
 
 
 VERIFICATION
