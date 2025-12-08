@@ -1,0 +1,80 @@
+==========================================
+ RENDER.COM DEPLOYMENT - QUICK GUIDE
+==========================================
+
+STEP 1: Push to Git
+-------------------
+git add .
+git commit -m "Ready for Render deployment"
+git push origin main
+
+
+STEP 2: Deploy on Render
+-------------------------
+1. Go to: https://dashboard.render.com
+2. Click: "New +" → "Blueprint"
+3. Connect your repository
+4. Render auto-detects render.yaml
+5. Click: "Apply"
+
+
+STEP 3: Set API Keys (Optional)
+--------------------------------
+For AI features (or use mock mode):
+
+Dashboard → webtp-api → Environment → Add:
+  ANTHROPIC_API_KEY=sk-ant-...
+  or
+  OPENAI_API_KEY=sk-...
+
+Dashboard → webtp-ui → Environment → Add:
+  (same keys as above)
+
+For mock mode (no API keys):
+  USE_MOCK_LLM=true
+
+
+STEP 4: Access Your App
+------------------------
+After ~5-10 minutes:
+  UI:  https://webtp-ui.onrender.com
+  API: https://webtp-api.onrender.com/docs
+
+
+PRICING
+-------
+Free Tier:    $0/month (spins down after 15 min)
+Starter:      $21/month (always on)
+Standard:     $57/month (high traffic)
+
+
+VERIFICATION
+------------
+All checks passed! ✓
+Run: python3 verify_render_ready.py
+
+
+FILES CREATED
+-------------
+✓ render.yaml           - Deployment config
+✓ render_start.sh       - API startup script
+✓ render_start_ui.sh    - UI startup script
+✓ .renderignore         - Files to exclude
+✓ env.render.example    - Environment variables reference
+✓ verify_render_ready.py - Deployment checker
+
+
+WHAT'S DEPLOYED
+---------------
+1. FastAPI backend (port 8000)
+2. Streamlit UI (port 8501)
+3. PostgreSQL database
+4. Persistent disk for data
+
+
+TROUBLESHOOTING
+---------------
+View logs: Dashboard → Service → Logs
+Health check: https://webtp-api.onrender.com/health
+Test locally first: make dev
+

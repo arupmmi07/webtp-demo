@@ -29,6 +29,8 @@ streamlit>=1.30.0
 plotly>=5.18.0
 
 # API Server
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
 flask>=3.0.0
 flask-cors>=4.0.0
 

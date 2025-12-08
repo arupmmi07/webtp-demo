@@ -1,0 +1,65 @@
+# Render Ignore File
+# Files and directories to exclude from deployment
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+
+# Documentation (not needed in production)
+docs/
+dev/
+*.md
+!README.md
+
+# Development files
+Makefile
+docker-compose.yml
+Dockerfile
+.git/
+.gitignore
+
+# Backup files
+data/backups/
+*.bak
+*.backup
+
+# Scripts (not needed in production)
+scripts/
+
+# Demo and test files
+demo/*.sh
+test_*.py
+*_test.py
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# Deployment configs for other platforms
+deploy/
+docker/
+
+# Duplicate directory
+webtp-demo-main/
+

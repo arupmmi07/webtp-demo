@@ -1,0 +1,198 @@
+# Render.com Deployment Configuration
+# Healthcare Operations Assistant - Multi-Service Deployment
+#
+# This configuration deploys:
+# 1. API Server (FastAPI) - Port 8000
+# 2. Streamlit UI - Port 8501
+# 3. PostgreSQL Database (for LiteLLM/data persistence)
+#
+# Documentation: https://render.com/docs/blueprint-spec
+
+services:
+  # ==================================================
+  # API Server (FastAPI with Uvicorn)
+  # ==================================================
+  - type: web
+    name: webtp-api
+    env: python
+    region: oregon  # Choose your preferred region
+    plan: starter  # Free tier available, upgrade to starter/standard for production
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: ./render_start.sh
+    healthCheckPath: /health
+    
+    envVars:
+      # Python Configuration
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      
+      # Application Settings
+      - key: PORT
+        value: 8000
+      - key: HOST
+        value: 0.0.0.0
+      - key: APP_BASE_URL
+        fromService:
+          type: web
+          name: webtp-api
+          property: url
+      
+      # LLM Configuration (Mock mode by default - no API keys needed)
+      - key: USE_MOCK_LLM
+        value: false  # Set to true for demo without real LLM
+      - key: USE_LOCAL_MODEL
+        value: false  # Cannot use local models on Render
+      
+      # LiteLLM Configuration (Optional - for production)
+      - key: LITELLM_BASE_URL
+        value: https://api.openai.com/v1  # Default to OpenAI, or use your LiteLLM proxy
+      - key: LITELLM_API_KEY
+        sync: false  # Set via Render Dashboard for security
+      - key: LITELLM_DEFAULT_MODEL
+        value: gpt-3.5-turbo
+      
+      # API Keys (Set these in Render Dashboard for security)
+      - key: ANTHROPIC_API_KEY
+        sync: false  # Secret - set in dashboard
+      - key: OPENAI_API_KEY
+        sync: false  # Secret - set in dashboard
+      - key: AZURE_API_KEY
+        sync: false  # Secret - set in dashboard
+      
+      # Langfuse Observability (Optional)
+      - key: LANGFUSE_PUBLIC_KEY
+        sync: false
+      - key: LANGFUSE_SECRET_KEY
+        sync: false
+      - key: LANGFUSE_HOST
+        value: https://cloud.langfuse.com
+      
+      # Database Connection (connects to PostgreSQL service below)
+      - key: DATABASE_URL
+        fromDatabase:
+          name: webtp-database
+          property: connectionString
+      
+      # CORS Settings
+      - key: ALLOWED_ORIGINS
+        value: "*"  # Update with your actual domains in production
+    
+    # Persistent disk for data files
+    disk:
+      name: webtp-data
+      mountPath: /app/data
+      sizeGB: 1
+
+  # ==================================================
+  # Streamlit UI
+  # ==================================================
+  - type: web
+    name: webtp-ui
+    env: python
+    region: oregon  # Match API region for lower latency
+    plan: starter
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: ./render_start_ui.sh
+    
+    envVars:
+      # Python Configuration
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      
+      # API Connection (connects to API service)
+      - key: API_BASE_URL
+        fromService:
+          type: web
+          name: webtp-api
+          property: url
+      
+      # LLM Configuration (same as API)
+      - key: USE_MOCK_LLM
+        value: false
+      - key: USE_LOCAL_MODEL
+        value: false
+      
+      # LiteLLM Configuration
+      - key: LITELLM_BASE_URL
+        value: https://api.openai.com/v1
+      - key: LITELLM_API_KEY
+        sync: false
+      - key: LITELLM_DEFAULT_MODEL
+        value: gpt-3.5-turbo
+      
+      # API Keys (same as API - shared config)
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      
+      # Langfuse
+      - key: LANGFUSE_PUBLIC_KEY
+        sync: false
+      - key: LANGFUSE_SECRET_KEY
+        sync: false
+      - key: LANGFUSE_HOST
+        value: https://cloud.langfuse.com
+      
+      # Streamlit Configuration
+      - key: STREAMLIT_SERVER_HEADLESS
+        value: true
+      - key: STREAMLIT_SERVER_PORT
+        value: 8501
+      - key: STREAMLIT_BROWSER_GATHER_USAGE_STATS
+        value: false
+
+# ==================================================
+# PostgreSQL Database
+# ==================================================
+databases:
+  - name: webtp-database
+    plan: starter  # Free tier available
+    databaseName: webtp
+    user: webtp_user
+    region: oregon  # Match services region
+
+# ==================================================
+# Deployment Notes
+# ==================================================
+# 
+# 1. INITIAL SETUP:
+#    - Push this file to your Git repository
+#    - Go to Render Dashboard: https://dashboard.render.com
+#    - Click "New +" → "Blueprint"
+#    - Connect your repository
+#    - Render will auto-detect render.yaml
+#
+# 2. SET ENVIRONMENT SECRETS (in Render Dashboard):
+#    - ANTHROPIC_API_KEY (if using Claude)
+#    - OPENAI_API_KEY (if using OpenAI)
+#    - LITELLM_API_KEY (if using LiteLLM proxy)
+#    - LANGFUSE_PUBLIC_KEY and LANGFUSE_SECRET_KEY (if using observability)
+#
+# 3. COST ESTIMATE:
+#    - Free Tier: Both services on free tier (limited hours/month)
+#    - Starter: $7/month per service = $14/month total
+#    - Database: $7/month for PostgreSQL starter
+#    - Total: ~$21/month for production-ready deployment
+#
+# 4. SCALING:
+#    - Start with free tier for testing
+#    - Upgrade to Starter for production
+#    - Use Standard ($25/month) for high traffic
+#
+# 5. CUSTOM DOMAINS:
+#    - API: api.yourdomain.com
+#    - UI: app.yourdomain.com
+#    - Configure in Render Dashboard → Settings → Custom Domain
+#
+# 6. MONITORING:
+#    - Built-in logs: Render Dashboard → Logs
+#    - Metrics: Dashboard → Metrics
+#    - Health checks: Automatic with healthCheckPath
+#
+# 7. DATA PERSISTENCE:
+#    - Disk mounted at /app/data for JSON files
+#    - PostgreSQL for structured data
+#    - Consider backing up to S3 for production
+#
+
