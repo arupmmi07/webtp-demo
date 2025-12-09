@@ -22,11 +22,11 @@ STEP 3: Connect UI to API (REQUIRED)
 -------------------------------------
 After both services deploy:
 
-1. Get API URL from Dashboard → webtp-api → copy URL
-   (e.g., https://webtp-api.onrender.com)
+1. Get API URL from Dashboard → webpt-api → copy URL
+   (e.g., https://webpt-api.onrender.com)
 
-2. Dashboard → webtp-ui → Environment → Add:
-   API_BASE_URL=https://webtp-api.onrender.com
+2. Dashboard → webpt-ui → Environment → Add:
+   API_BASE_URL=https://webpt-api.onrender.com
 
 
 STEP 4: Set API Keys (Optional)
@@ -48,8 +48,8 @@ For mock mode (no API keys):
 STEP 5: Access Your App
 ------------------------
 After ~5-10 minutes:
-  UI:  https://webtp-ui.onrender.com
-  API: https://webtp-api.onrender.com/docs
+  UI:  https://webpt-ui.onrender.com
+  API: https://webpt-api.onrender.com/docs
 
 
 PRICING
@@ -95,6 +95,6 @@ Upgrade to 'starter' plan for persistent disk storage
 TROUBLESHOOTING
 ---------------
 View logs: Dashboard → Service → Logs
-Health check: https://webtp-api.onrender.com/health
+Health check: https://webpt-api.onrender.com/health
 Test locally first: make dev
 

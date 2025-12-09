@@ -13,7 +13,7 @@ services:
   # API Server (FastAPI with Uvicorn)
   # ==================================================
   - type: web
-    name: webtp-api
+    name: webpt-api
     env: python
     region: oregon  # Choose your preferred region
     plan: free  # Free tier (spins down after 15 min idle), upgrade to starter for production
@@ -66,7 +66,7 @@ services:
       # Database Connection (connects to PostgreSQL service below)
       - key: DATABASE_URL
         fromDatabase:
-          name: webtp-database
+          name: webpt-database
           property: connectionString
       
       # CORS Settings
@@ -85,7 +85,7 @@ services:
   # Web UI (FastAPI + Static HTML)
   # ==================================================
   - type: web
-    name: webtp-ui
+    name: webpt-ui
     env: python
     region: oregon  # Match API region for lower latency
     plan: free  # Free tier (spins down after 15 min idle), upgrade to starter for production
@@ -98,8 +98,8 @@ services:
         value: 3.11.0
       
       # API Connection - Set this manually in Render Dashboard after deployment
-      # Dashboard → webtp-ui → Environment → Add:
-      # API_BASE_URL=https://webtp-api.onrender.com
+      # Dashboard → webpt-ui → Environment → Add:
+      # API_BASE_URL=https://webpt-api.onrender.com
       - key: API_BASE_URL
         sync: false  # Set manually after API service is deployed
       
@@ -147,10 +147,10 @@ services:
 # PostgreSQL Database
 # ==================================================
 databases:
-  - name: webtp-database
+  - name: webpt-database
     plan: free  # Free tier (90 days free, then $7/month)
-    databaseName: webtp
-    user: webtp_user
+    databaseName: webpt
+    user: webpt_user
     region: oregon  # Match services region
 
 # ==================================================
