@@ -50,7 +50,7 @@ from config.llm_settings import LLMSettings
 
 # Create FastAPI app
 app = FastAPI(
-    title="WebTP Demo - Unified Server",
+    title="WebPT - Healthcare Operations System",
     description="""
     Unified web server with HTML pages and API endpoints.
     
@@ -155,7 +155,7 @@ if static_dir.exists():
 @app.get("/health")
 async def health_check():
     """Health check endpoint."""
-    return {"status": "healthy", "message": "WebTP Demo is running"}
+    return {"status": "healthy", "message": "WebPT Healthcare Operations System is running"}
 
 @app.get("/confirm")
 async def confirm_appointment(token: str, action: str = "accept"):
@@ -1572,7 +1572,7 @@ async def root():
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>WebTP Demo - Index</title>
+        <title>WebPT - Healthcare Operations</title>
         <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
             body {
@@ -1680,7 +1680,7 @@ async def root():
     </head>
     <body>
         <div class="container">
-            <h1>🏥 WebTP Demo Index</h1>
+            <h1>🏥 WebPT Healthcare Operations</h1>
             <p class="subtitle">Complete directory of all available pages and endpoints</p>
             
             <!-- Main UI Pages -->
@@ -1796,7 +1796,7 @@ async def root():
             </div>
             
             <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #ecf0f1; color: #7f8c8d;">
-                <p>🚀 WebTP Demo - Physical Therapy Scheduling & AI Assistant</p>
+                <p>🚀 WebPT - Physical Therapy Scheduling & AI Assistant</p>
                 <p style="font-size: 0.9rem; margin-top: 5px;">All endpoints are live and ready for testing</p>
             </div>
         </div>
@@ -1838,11 +1838,11 @@ async def get_reset(admin_key: str = None):
 @app.get("/health")
 async def health_check():
     """Health check endpoint."""
-    return {"status": "healthy", "message": "WebTP Demo UI is running"}
+    return {"status": "healthy", "message": "WebPT UI is running"}
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
-    print(f"🌐 Starting WebTP Demo UI on port {port}")
+    print(f"🌐 Starting WebPT UI on port {port}")
     print(f"📱 Access at: http://localhost:{port}")
     
     uvicorn.run(
