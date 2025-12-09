@@ -77,7 +77,7 @@ services:
     # Data will be ephemeral on free tier (resets on restart)
     # Upgrade to starter plan and uncomment below for persistent storage:
     # disk:
-    #   name: webtp-data
+    #   name: webpt-data
     #   mountPath: /app/data
     #   sizeGB: 1
 

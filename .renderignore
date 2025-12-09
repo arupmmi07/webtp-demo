@@ -61,5 +61,5 @@ deploy/
 docker/
 
 # Duplicate directory
-webtp-demo-main/
+webpt-demo-main/
 

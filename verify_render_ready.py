@@ -189,8 +189,8 @@ def check_render_yaml():
         content = f.read()
     
     checks = {
-        'API service': 'name: webtp-api' in content,
-        'UI service': 'name: webtp-ui' in content,
+        'API service': 'name: webpt-api' in content,
+        'UI service': 'name: webpt-ui' in content,
         'Database': 'databases:' in content,
         'Python env': 'env: python' in content,
         'Build command': 'buildCommand:' in content,

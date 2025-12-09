@@ -33,12 +33,12 @@ STEP 4: Set API Keys (Optional)
 --------------------------------
 For AI features (or use mock mode):
 
-Dashboard → webtp-api → Environment → Add:
+Dashboard → webpt-api → Environment → Add:
   ANTHROPIC_API_KEY=sk-ant-...
   or
   OPENAI_API_KEY=sk-...
 
-Dashboard → webtp-ui → Environment → Add:
+Dashboard → webpt-ui → Environment → Add:
   (same keys as above)
 
 For mock mode (no API keys):
