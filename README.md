@@ -4,7 +4,7 @@
 
 When a therapist calls in sick, this system automatically finds the best replacement and reschedules appointments using intelligent matching algorithms.
 
----
+----
 
 ## 🚀 Quick Start
 
