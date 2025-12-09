@@ -21,12 +21,11 @@ help: ## Show this help message
 	@echo "    └─ Run this FIRST before anything else"
 	@echo ""
 	@echo "  make dev"
-	@echo "    └─ Resets demo data and starts all services (API + UI)"
+	@echo "    └─ Starts unified server (HTML pages + API endpoints)"
 	@echo "    └─ Auto-detects and kills port conflicts"
-	@echo "    └─ Always starts with fresh demo state"
-	@echo "    └─ Uses LM Studio (localhost:1234) - no login needed"
-	@echo "    └─ API:  http://localhost:8000"
-	@echo "    └─ UI:   http://localhost:8501"
+	@echo "    └─ Uses mock LLM for local development"
+	@echo "    └─ All-in-one: http://localhost:8501"
+	@echo "    └─ Schedule, emails, reset, API docs - all included"
 	@echo ""
 	@echo "  make stop"
 	@echo "    └─ Stop all running services cleanly"
@@ -125,11 +124,12 @@ help: ## Show this help message
 	@echo ""
 	@echo "🌐 URLS (when running)"
 	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-	@echo "  Chat UI:      http://localhost:8501/"
-	@echo "  API Docs:     http://localhost:8000/docs"
-	@echo "  Calendar:     http://localhost:8000/schedule.html"
-	@echo "  Emails:       http://localhost:8000/emails.html"
-	@echo "  Health:       http://localhost:8000/health"
+	@echo "  Landing:      http://localhost:8501/"
+	@echo "  Schedule:     http://localhost:8501/schedule.html"
+	@echo "  Emails:       http://localhost:8501/emails.html"
+	@echo "  Reset:        http://localhost:8501/reset.html"
+	@echo "  API Docs:     http://localhost:8501/docs"
+	@echo "  Health:       http://localhost:8501/health"
 	@echo ""
 	@echo "🤖 LLM SETUP"
 	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -145,16 +145,34 @@ help: ## Show this help message
 	@echo "    • Password: sk-1234 (or set LITELLM_MASTER_KEY)"
 	@echo ""
 
-dev: ## Start API and UI (both services in background)
+dev: ## Start unified server (HTML pages + API endpoints)
 	@if [ ! -d "$(VENV)" ]; then \
 		echo "❌ Virtual environment not found. Run 'make install' first."; \
 		exit 1; \
 	fi
-	@echo "🔄 Resetting demo data to initial state..."
-	@./scripts/reset-demo.sh
-	@echo ""
 	@mkdir -p logs
-	@./scripts/start.sh
+	@echo "🚀 Starting WebTP Demo - Unified Server"
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@echo ""
+	@echo "🔍 Checking for port conflicts..."
+	@lsof -ti:8501 | xargs kill -9 2>/dev/null && echo "✅ Killed existing process on port 8501" || echo "✅ Port 8501 is free"
+	@echo ""
+	@echo "🌐 Starting unified server..."
+	@bash -c "source $(VENV)/bin/activate && python demo/chat_ui.py > logs/unified.log 2>&1 &"
+	@sleep 3
+	@echo "✅ Server started!"
+	@echo ""
+	@echo "🌐 ACCESS POINTS"
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@echo "  🏠 Landing Page:  http://localhost:8501/"
+	@echo "  📅 Schedule:      http://localhost:8501/schedule.html"
+	@echo "  📧 Emails:        http://localhost:8501/emails.html"
+	@echo "  🔄 Reset:         http://localhost:8501/reset.html"
+	@echo "  📚 API Docs:      http://localhost:8501/docs"
+	@echo "  💚 Health:        http://localhost:8501/health"
+	@echo ""
+	@echo "💡 Reset demo data: http://localhost:8501/reset.html"
+	@echo "💡 View logs: tail -f logs/unified.log"
 
 cli: ## Run the interactive CLI demo
 	@echo "Starting interactive CLI..."
@@ -173,20 +191,21 @@ install: ## Install Python dependencies in virtual environment
 	@bash -c "source $(VENV)/bin/activate && pip install --upgrade pip && pip install -r requirements.txt"
 	@echo "✅ Installation complete! Run 'make dev' to start."
 
-stop: ## Stop all services (API + UI)
-	@./scripts/stop.sh
+stop: ## Stop unified server
+	@echo "🛑 Stopping unified server..."
+	@lsof -ti:8501 | xargs kill -9 2>/dev/null && echo "✅ Stopped server on port 8501" || echo "✅ No server running on port 8501"
+	@echo "✅ Server stopped"
 
 status: ## Check status of all services
 	@./scripts/status.sh
 
-logs: ## View logs from all services
+logs: ## View logs from unified server
 	@echo "📋 Recent logs (Ctrl+C to exit):"
 	@echo ""
-	@echo "════════ API Server ════════"
-	@tail -20 logs/api.log 2>/dev/null || echo "No API logs yet"
+	@echo "════════ Unified Server ════════"
+	@tail -20 logs/unified.log 2>/dev/null || echo "No server logs yet"
 	@echo ""
-	@echo "════════ Streamlit UI ════════"
-	@tail -20 logs/ui.log 2>/dev/null || echo "No UI logs yet"
+	@echo "💡 Live logs: tail -f logs/unified.log"
 
 restart: stop dev ## Restart all services
 

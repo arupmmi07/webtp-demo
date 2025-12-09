@@ -1,39 +1,24 @@
 #!/bin/bash
-# Render.com startup script for Streamlit UI
-# Starts the Streamlit chat interface
+# Render.com startup script for Web UI
+# Starts the FastAPI server with HTML pages (replaces Streamlit)
 
 set -e  # Exit on error
 
-echo "🎨 Starting Streamlit UI on Render..."
+echo "🎨 Starting Web UI on Render..."
 echo ""
 echo "🌐 API Connection: ${API_BASE_URL:-http://localhost:8000}"
 echo "🔧 Port: ${PORT:-8501}"
 echo ""
 
 # Create necessary directories
-mkdir -p logs .streamlit
+mkdir -p logs static
 
-# Create Streamlit config to fix static file loading
-cat > .streamlit/config.toml << EOF
-[server]
-headless = true
-port = ${PORT:-8501}
-enableCORS = false
-enableXsrfProtection = false
-
-[browser]
-gatherUsageStats = false
-serverAddress = "0.0.0.0"
-
-[theme]
-base = "light"
-EOF
-
-echo "✅ Starting Streamlit..."
+echo "✅ Starting FastAPI Web Server..."
+echo "   📅 Schedule: /schedule.html"
+echo "   📧 Emails: /emails.html"
+echo "   🔄 Reset: /reset.html"
 echo ""
 
-# Start Streamlit with proper configuration for Render
-exec streamlit run demo/chat_ui.py \
-    --server.address 0.0.0.0 \
-    --server.port ${PORT:-8501}
+# Start the web server (backwards compatible with Streamlit command)
+exec python3 demo/chat_ui.py
 

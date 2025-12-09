@@ -8,22 +8,7 @@ When a therapist calls in sick, this system automatically finds the best replace
 
 ## 🚀 Quick Start
 
-### Option 1: Cloud Deploy (Render.com) - **Recommended for Production** ☁️
-
-```bash
-# Deploy to Render.com in 5 minutes
-# See: RENDER_QUICK_START.md
-
-1. Push code to GitHub
-2. Connect to Render.com
-3. Auto-deploy from render.yaml
-4. Access at: https://webtp-ui.onrender.com
-```
-
-**Free tier available!** Perfect for demos and production.  
-📖 **[Complete Render Deploy Guide →](./RENDER_QUICK_START.md)**
-
-### Option 2: Docker (Local Development - Includes LiteLLM)
+### Option 1: Docker (Recommended - Includes LiteLLM)
 
 ```bash
 # Start all services (API + UI + LiteLLM)
@@ -33,7 +18,7 @@ make docker-up
 # Access LiteLLM at http://localhost:4000
 ```
 
-### Option 3: Local Development
+### Option 2: Local Development
 
 ```bash
 # Start API and UI locally
@@ -42,7 +27,7 @@ make dev
 # Opens at http://localhost:8501
 ```
 
-### Option 4: CLI
+### Option 3: CLI
 
 ```bash
 make cli
@@ -227,9 +212,7 @@ make docker-up
 
 | Document | Description |
 |----------|-------------|
-| **`RENDER_QUICK_START.md`** | 5-minute Render.com deployment ⭐ NEW |
-| **`RENDER_DEPLOYMENT.md`** | Complete Render deployment guide ⭐ NEW |
-| **`docs/LM_STUDIO_SETUP.md`** | Use FREE local models (LM Studio) |
+| **`docs/LM_STUDIO_SETUP.md`** | Use FREE local models (LM Studio) ⭐ NEW |
 | **`docker/README.md`** | Docker deployment guide |
 | **`DOCKER_SETUP.md`** | Quick Docker + LiteLLM setup |
 | **`config/cost_limits.yaml`** | Detailed cost breakdown |

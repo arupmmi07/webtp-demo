@@ -80,12 +80,16 @@ FILES CREATED
 
 WHAT'S DEPLOYED
 ---------------
-1. FastAPI backend (port 8000)
-2. Streamlit UI (port 8501)
+1. FastAPI API Server (port 8000)
+2. FastAPI Web UI with HTML pages (port 8501)
+   - Schedule page: /schedule.html
+   - Emails page: /emails.html
+   - Reset page: /reset.html
 3. PostgreSQL database (persistent)
 4. Data files (ephemeral on free tier, recreated from templates)
 
-Note: Upgrade to 'starter' plan for persistent disk storage
+Note: No Streamlit! Now using FastAPI + Static HTML
+Upgrade to 'starter' plan for persistent disk storage
 
 
 TROUBLESHOOTING

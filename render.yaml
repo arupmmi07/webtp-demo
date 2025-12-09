@@ -82,14 +82,14 @@ services:
     #   sizeGB: 1
 
   # ==================================================
-  # Streamlit UI
+  # Web UI (FastAPI + Static HTML)
   # ==================================================
   - type: web
     name: webtp-ui
     env: python
     region: oregon  # Match API region for lower latency
     plan: free  # Free tier (spins down after 15 min idle), upgrade to starter for production
-    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt && pip install -r requirements-web.txt
     startCommand: ./render_start_ui.sh
     
     envVars:
