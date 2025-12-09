@@ -24,7 +24,6 @@ wheels/
 venv/
 env/
 ENV/
-webtp-demo-main-update/
 .venv
 
 # IDE
